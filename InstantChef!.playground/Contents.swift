@@ -41,7 +41,7 @@ for (index, word) in words.enumerate() {
     } else {
         
         // add 1 to total in suffix dictionary
-        prefix[word]!["📐"]! += 1
+        prefix[word]![words[index+1]]!["📐"]! += 1
         
         // does current word exist as a suffix already?
         if suffix[word]![words[index + 1]] == nil {         // does not exist, so create and set to 1
