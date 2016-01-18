@@ -109,12 +109,17 @@ for i in 1...20 {
                             end = true
                         }
                         
-                        // Add space before next word
+                        // Add space before next word if none exists
+                        if Recipe[Recipe.endIndex.predecessor()] != " " {
                         Recipe += " "
+                        }
                         
-                        if (i>1) {
+                        if (i>1) { //adds the recipe to output, minus the primary 'seed sentence' which is usually pretty bad.
                             output += potSuf
-                            output += " " //adds the recipe to output, minus the primary 'seed sentence' which is usually pretty bad.
+                            //add space if none exists
+                            if output[output.endIndex.predecessor()] != " " {
+                                output += " "
+                            }
                         }
                         
                         break
