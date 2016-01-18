@@ -62,78 +62,87 @@ for (index, word) in words.enumerate() {
 //select seed word at random from the input words
 var currentWord = words[Int(arc4random_uniform(UInt32(words.count)))]
 var Recipe: String = currentWord + " "    // start the output sentence
+var output: String  = "" //for actual output, minus the first sentence!
 var end: Bool = false
 
-
 //make 20 sentences
-
-    
-//loop until complete sentence
-while(true) {
-    //for _ in 1...20 {
-    
-    //Ensure the presence of a valid seed word
-    if prefix[currentWord] != nil && currentWord != " " {
+for i in 1...20 {
+    //reset sentence loop stop
+    end = false
+    //loop until complete sentence
+    while(end==false) {
+        //for _ in 1...20 {
         
-        // Generate the random value
-        let randVal = Float(arc4random_uniform(1000000)) / 10000
-        randVal
-        
-        // Stores upper value of probabi lity for current suffix word
-        var upVal: Float = 0
-        
-        // iterate over all suffix words for this prefix
-        for (potSuf, count) in prefix[currentWord]! {
+        //Ensure the presence of a valid seed word
+        if prefix[currentWord] != nil && currentWord != " " {
             
-            // get total suffix words for this prefix
-            let suffixTotal = prefix[currentWord]!["#️⃣"]!
+            // Generate the random value
+            let randVal = Float(arc4random_uniform(1000000)) / 10000
+            randVal
             
-            // exclude the instance of the suffix that contains the suffix total
-            if potSuf != "#️⃣" {
+            // Stores upper value of probabi lity for current suffix word
+            var upVal: Float = 0
+            
+            // iterate over all suffix words for this prefix
+            for (potSuf, count) in prefix[currentWord]! {
                 
-                //get upper value
-                upVal += Float(count) / Float( suffixTotal ) * 100
+                // get total suffix words for this prefix
+                let suffixTotal = prefix[currentWord]!["#️⃣"]!
                 
-                //Check if suffix is eligible for use
-                if (randVal < upVal) {
+                // exclude the instance of the suffix that contains the suffix total
+                if potSuf != "#️⃣" {
                     
-                    // add the suffix to output
-                    Recipe += potSuf
+                    //get upper value
+                    upVal += Float(count) / Float( suffixTotal ) * 100
                     
-                    // make the suffix the prefix
-                    currentWord = potSuf
-                    
-                    //Check for end of sentence
-                    if Recipe[Recipe.endIndex.predecessor()] == "." {
-                        end = true
+                    //Check if suffix is eligible for use
+                    if (randVal < upVal) {
+                        
+                        // add the suffix to recipe
+                        Recipe += potSuf
+                        
+                        // make the suffix the prefix
+                        currentWord = potSuf
+                        
+                        //Check for end of sentence
+                        if Recipe[Recipe.endIndex.predecessor()] == "." {
+                            end = true
+                        }
+                        
+                        // Add space before next word
+                        Recipe += " "
+                        
+                        if (i>1) {
+                            output += potSuf
+                            output += " " //adds the recipe to output, minus the primary 'seed sentence' which is usually pretty bad.
+                        }
+                        
+                        break
                     }
-                    
-                    // Add space before next word
-                    Recipe += " "
-                    
-                    break
                 }
+                
             }
             
+            
+        } else {
+            //If it can't find a seed word
+            Recipe = "Seed Word Not Found! 😢"
+            
+            // Stop building the output sentence.
+            break
         }
         
-    } else {
-        //If it can't find a seed word
-        Recipe = "Seed Word Not Found! 😢"
-        
-        // Stop building the output sentence.
-        break
+        // Stop building the sentence if last word added has a period
+        if (end == true) {
+            break
+        }
     }
-    
-    // Stop building the sentence if last word added has a period
-    if (end == true) {
-        break
-    }
-    
 }
-
-
 Recipe
+
+print(output)
+print("Now eat up and ENJOY!")
+
 
 
 
